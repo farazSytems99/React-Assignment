@@ -92,10 +92,8 @@ const ProjectTable = (props) => {
               </Draggable>
             ))
           ) : (
-            <div style={{ padding: 5 }}>
-              <Typography style={{ textAlign: 'center' }} variant="caption">
-                no employees allocated to this project yet
-              </Typography>
+            <div style={{ padding: 5, textAlign: 'center' }}>
+              <Typography variant="caption">no employees allocated</Typography>
             </div>
           )}
         </TableBody>

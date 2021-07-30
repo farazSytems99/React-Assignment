@@ -137,8 +137,8 @@ const ProjectAllocation = (props) => {
           className={classes.textField}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          <MenuItem value="" disabled>
-            Shift
+          <MenuItem value="">
+            <em>None</em>
           </MenuItem>
           {shifts.map((shift) => (
             <MenuItem value={shift.id}>{shift.title}</MenuItem>
@@ -152,9 +152,10 @@ const ProjectAllocation = (props) => {
           className={classes.textField}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          <MenuItem value="" disabled>
-            Department
+          <MenuItem value="">
+            <em>None</em>
           </MenuItem>
+
           {departments.map((dept) => (
             <MenuItem value={dept.id}>{dept.name}</MenuItem>
           ))}
@@ -182,10 +183,12 @@ const ProjectAllocation = (props) => {
           {<EmployeeTable data={employeeData} />}
         </Grid>
         <Grid style={{ display: 'flex', flexDirection: 'column' }} item xs={9}>
-          <Typography style={{ marginBottom: 5 }} variant="caption">
-            Below tables show the employees allocated to different projects. You
-            can drag and drop an employee to re-assign them.
-          </Typography>
+          {projects.length ? (
+            <Typography style={{ marginBottom: 5 }} variant="caption">
+              Below tables show the employees allocated to different projects.
+              You can drag and drop an employee to re-assign them.
+            </Typography>
+          ) : null}
           <DragDropContext onDragEnd={onDrop}>
             <Grid container spacing={4}>
               {projects &&
