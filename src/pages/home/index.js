@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Avatar, withStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { ProtectedRoute } from '../../components/ProtectedRoute';
@@ -12,7 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
-import ProjectAllocation from '../ProjectAllocation';
+import ProjectAllocation from '../project-allocation';
 import colors from '../../theme/colors';
 import {
   fetchDepartments,
@@ -97,6 +97,7 @@ const Home = (props) => {
     dispatch(fetchProjects());
     dispatch(fetchDepartments());
     dispatch(fetchShifts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {

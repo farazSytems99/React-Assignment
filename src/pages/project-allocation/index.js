@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Container,
   Grid,
@@ -11,11 +12,12 @@ import {
 import { filter } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import EmployeeTable from '../components/EmployeeTable';
-import ProjectTable from '../components/ProjectTable';
-import colors from '../theme/colors';
+import EmployeeTable from '../../components/EmployeeTable';
+import ProjectTable from '../../components/ProjectTable';
+import colors from '../../theme/colors';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { assignEmployee } from '../actions/user';
+import { assignEmployee } from '../../actions/user';
+import Empty from '../../assets/empty.png';
 
 const styles = (theme) => ({
   heading: {
@@ -39,6 +41,17 @@ const styles = (theme) => ({
   },
   caption: {
     marginBottom: theme.spacing(3),
+  },
+  emptyContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    // alignItems: 'center',
+    width: theme.spacing(200),
+    height: theme.spacing(200),
+  },
+  empty: {
+    width: theme.spacing(100),
+    height: theme.spacing(100),
   },
 });
 
@@ -94,7 +107,8 @@ const ProjectAllocation = (props) => {
     if (shift) filters['shift'] = shift;
     if (department) filters['department'] = department;
 
-    Object.keys(filters).length && applyFilters(filters);
+    if (Object.keys(filters).length) applyFilters(filters);
+    else setProjects(reduxProjects);
   };
 
   const onDrop = (e) => {
@@ -191,7 +205,7 @@ const ProjectAllocation = (props) => {
           ) : null}
           <DragDropContext onDragEnd={onDrop}>
             <Grid container spacing={4}>
-              {projects &&
+              {projects.length ? (
                 projects.map((project, index) => (
                   <Grid className={classes.table} item xs={3}>
                     <Droppable key={index} droppableId={`${project.id}`}>
@@ -212,7 +226,12 @@ const ProjectAllocation = (props) => {
                       }}
                     </Droppable>
                   </Grid>
-                ))}
+                ))
+              ) : (
+                <div className={classes.emptyContainer}>
+                  <Avatar className={classes.empty} src={Empty} />
+                </div>
+              )}
             </Grid>
           </DragDropContext>
         </Grid>
