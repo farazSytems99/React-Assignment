@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Avatar,
-  Button,
-  Container,
-  IconButton,
-  withStyles,
-} from '@material-ui/core';
+import { Avatar, withStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { ProtectedRoute } from '../../components/ProtectedRoute';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
+import { Switch, useLocation, withRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -17,7 +10,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import ProjectAllocation from '../ProjectAllocation';
@@ -96,9 +88,9 @@ const SideMenus = [
 
 const Home = (props) => {
   const classes = props.classes;
-  const [active, setActive] = useState('/projects');
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchEmployees());
@@ -117,8 +109,7 @@ const Home = (props) => {
       handleLogout();
       return;
     }
-    setActive(link);
-    props.history.push(link);
+    if (location.pathname !== link) props.history.push(link);
   };
 
   return (

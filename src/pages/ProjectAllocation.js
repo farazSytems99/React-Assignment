@@ -10,8 +10,6 @@ import {
 } from '@material-ui/core';
 import { filter } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import EmployeeTable from '../components/EmployeeTable';
 import ProjectTable from '../components/ProjectTable';
@@ -38,6 +36,9 @@ const styles = (theme) => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  caption: {
+    marginBottom: theme.spacing(3),
   },
 });
 
@@ -112,6 +113,9 @@ const ProjectAllocation = (props) => {
   const renderFilters = () => {
     return (
       <div className={classes.form} noValidate>
+        <Typography className={classes.caption} variant="caption">
+          Select from below to filter visible projects
+        </Typography>
         <TextField
           id="date"
           label="Date"
@@ -178,7 +182,7 @@ const ProjectAllocation = (props) => {
           {<EmployeeTable data={employeeData} />}
         </Grid>
         <Grid style={{ display: 'flex', flexDirection: 'column' }} item xs={9}>
-          <Typography variant="caption">
+          <Typography style={{ marginBottom: 5 }} variant="caption">
             Below tables show the employees allocated to different projects. You
             can drag and drop an employee to re-assign them.
           </Typography>

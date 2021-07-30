@@ -1,4 +1,4 @@
-export default {
+const types = {
   login: 'LOGIN',
   logout: 'LOGOUT',
   employees: 'EMPLOYEES',
@@ -6,3 +6,5 @@ export default {
   departments: 'DEPARTMENTS',
   shifts: 'SHIFTS',
 };
+
+export default types;

@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Login from './pages/login';
 import Home from './pages/home';
-import { ProtectedRoute } from './components/ProtectedRoute';
 import { useSelector } from 'react-redux';
 
 const Main = (props) => {

@@ -1,5 +1,5 @@
 import { Typography, withStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,9 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import colors from '../../theme/colors';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
+import PropTypes, { any } from 'prop-types';
 
-const styles = (theme) => ({
+const styles = () => ({
   head: { backgroundColor: colors.secondary, color: 'white' },
   bold: { fontWeight: 'bold' },
   '@global': {
@@ -29,7 +30,7 @@ const styles = (theme) => ({
 const ProjectTable = (props) => {
   const classes = props.classes;
   const { selectedEmployee, setSelectedEmployee } = props;
-  const { id, manager, controller, grade, employees } = props.data;
+  const { id, manager, controller, employees } = props.data;
 
   return (
     <TableContainer
@@ -101,6 +102,12 @@ const ProjectTable = (props) => {
       </Table>
     </TableContainer>
   );
+};
+
+ProjectTable.propTypes = {
+  selectedEmployee: PropTypes.bool.isRequired,
+  setSelectedEmployee: PropTypes.func.isRequired,
+  data: PropTypes.objectOf(any).isRequired,
 };
 
 export default withStyles(styles)(ProjectTable);

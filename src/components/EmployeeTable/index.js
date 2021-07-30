@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { Typography, withStyles } from '@material-ui/core';
 import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,12 +8,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import colors from '../../theme/colors';
+import PropTypes, { any } from 'prop-types';
 
 const styles = (theme) => ({
-  container: {
-    // width: 300,
-    height: theme.spacing(53.5),
+  parent: {
+    display: 'flex',
+    flexDirection: 'column',
     marginTop: theme.spacing(10),
+  },
+  container: {
+    height: theme.spacing(53.5),
   },
   head: { backgroundColor: colors.secondary, color: 'white' },
 });
@@ -42,31 +46,40 @@ const EmployeeTable = (props) => {
   const { data } = props;
 
   return (
-    <TableContainer className={classes.container} component={Paper}>
-      <Table
-        stickyHeader={true}
-        className={classes.table}
-        aria-label="simple table"
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell align="center" size="small" className={classes.head}>
-              Employee Details
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {renderRow('Employee No.', data?.id)}
-          {renderRow('Emp. Name', data?.employee_name)}
-          {renderRow('Controller', data?.controller)}
-          {renderRow('Manager', data?.manager)}
-          {renderRow('Project', data?.project)}
-          {renderRow('Skill', data?.skill)}
-          {renderRow('Role', data?.role)}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className={classes.parent}>
+      <Typography variant="caption">
+        Click on and employee to see details
+      </Typography>
+      <TableContainer className={classes.container} component={Paper}>
+        <Table
+          stickyHeader={true}
+          className={classes.table}
+          aria-label="simple table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" size="small" className={classes.head}>
+                Employee Details
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {renderRow('Employee No.', data?.id)}
+            {renderRow('Emp. Name', data?.employee_name)}
+            {renderRow('Controller', data?.controller)}
+            {renderRow('Manager', data?.manager)}
+            {renderRow('Project', data?.project)}
+            {renderRow('Skill', data?.skill)}
+            {renderRow('Role', data?.role)}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
+};
+
+EmployeeTable.propTypes = {
+  data: PropTypes.objectOf(any).isRequired,
 };
 
 export default withStyles(styles)(EmployeeTable);
