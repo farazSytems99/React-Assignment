@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { Typography, withStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -56,39 +56,47 @@ const ProjectTable = (props) => {
         </TableHead>
 
         <TableBody>
-          {employees.map((emp, index) => (
-            <Draggable
-              key={emp.toString()}
-              draggableId={emp.toString()}
-              index={index}
-            >
-              {(provided) => {
-                return (
-                  <TableRow
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={{
-                      backgroundColor:
-                        selectedEmployee === emp
-                          ? '#cae7eb'
-                          : colors.background,
-                    }}
-                    onClick={() => setSelectedEmployee(emp)}
-                    key={emp}
-                  >
-                    <TableCell
-                      style={{ ...provided.draggableProps.style }}
-                      align="center"
-                      size="small"
+          {employees.length ? (
+            employees.map((emp, index) => (
+              <Draggable
+                key={emp.toString()}
+                draggableId={emp.toString()}
+                index={index}
+              >
+                {(provided) => {
+                  return (
+                    <TableRow
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={{
+                        backgroundColor:
+                          selectedEmployee === emp
+                            ? '#cae7eb'
+                            : colors.background,
+                      }}
+                      onClick={() => setSelectedEmployee(emp)}
+                      key={emp}
                     >
-                      {emp}
-                    </TableCell>
-                  </TableRow>
-                );
-              }}
-            </Draggable>
-          ))}
+                      <TableCell
+                        style={{ ...provided.draggableProps.style }}
+                        align="center"
+                        size="small"
+                      >
+                        {emp}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }}
+              </Draggable>
+            ))
+          ) : (
+            <div style={{ padding: 5 }}>
+              <Typography style={{ textAlign: 'center' }} variant="caption">
+                no employees allocated to this project yet
+              </Typography>
+            </div>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

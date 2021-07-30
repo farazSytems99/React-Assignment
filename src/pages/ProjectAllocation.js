@@ -58,7 +58,11 @@ const ProjectAllocation = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setProjects(reduxProjects);
+    if (date || shift || department) {
+      onSubmit();
+    } else {
+      setProjects(reduxProjects);
+    }
   }, [reduxProjects]);
 
   useEffect(() => {
@@ -79,7 +83,6 @@ const ProjectAllocation = (props) => {
   }, [selectedEmployee]);
 
   const applyFilters = (filters) => {
-    console.log({ filters });
     let filteredProjects = filter(reduxProjects, filters);
     setProjects(filteredProjects);
   };
@@ -174,7 +177,11 @@ const ProjectAllocation = (props) => {
           {renderFilters()}
           {<EmployeeTable data={employeeData} />}
         </Grid>
-        <Grid style={{ display: 'flex' }} item xs={9}>
+        <Grid style={{ display: 'flex', flexDirection: 'column' }} item xs={9}>
+          <Typography variant="caption">
+            Below tables show the employees allocated to different projects. You
+            can drag and drop an employee to re-assign them.
+          </Typography>
           <DragDropContext onDragEnd={onDrop}>
             <Grid container spacing={4}>
               {projects &&

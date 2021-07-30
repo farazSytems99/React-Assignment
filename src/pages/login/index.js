@@ -11,6 +11,7 @@ import {
 import colors from '../../theme/colors';
 import { useDispatch } from 'react-redux';
 import { login } from '../../actions/user';
+import { emailRegex } from '../../utils';
 
 const styles = (theme) => ({
   container: {
@@ -71,15 +72,34 @@ const Login = (props) => {
   const classes = props.classes;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [errorType, setErrorType] = useState('');
 
   const dispatch = useDispatch();
 
   const handleLogin = () => {
+    //validations
+    if (!email) {
+      setError('Email is Required');
+      setErrorType('email');
+      return;
+    } else if (!password || password.length < 8) {
+      setError('Password must be 8 characters long');
+      setErrorType('password');
+      return;
+    } else if (!emailRegex.test(email)) {
+      setError('Enter a valid email');
+      setErrorType('email');
+      return;
+    }
+
     dispatch(login());
     setEmail(null);
     setPassword(null);
     props.history.push('/');
   };
+
+  console.log({ error, errorType });
 
   return (
     <Container className={classes.container}>
@@ -87,15 +107,17 @@ const Login = (props) => {
         <Typography className={classes.heading} variant="h4">
           Login
         </Typography>
-        <form onSubmit={handleLogin} className={classes.form} validate>
+        <div className={classes.form}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextField
                 className={classes.textField}
-                // autoComplete="new"
+                autoComplete="new-password"
                 variant="outlined"
                 required
                 fullWidth
+                error={errorType === 'email'}
+                helperText={errorType === 'email' && error}
                 size="medium"
                 id="email"
                 label="Email Address"
@@ -111,6 +133,8 @@ const Login = (props) => {
                 variant="outlined"
                 required
                 fullWidth
+                error={errorType === 'password'}
+                helperText={errorType === 'password' && error}
                 size="medium"
                 label="Password"
                 type="password"
@@ -119,7 +143,11 @@ const Login = (props) => {
               />
             </Grid>
           </Grid>
-          <Typography className={classes.forgot} variant="inherit">
+          <Typography
+            onClick={() => alert('navigate to forgot password')}
+            className={classes.forgot}
+            variant="inherit"
+          >
             Forgot Password?
           </Typography>
           <Button
@@ -128,10 +156,11 @@ const Login = (props) => {
             size="large"
             variant="contained"
             className={classes.submit}
+            onClick={handleLogin}
           >
             Sign In
           </Button>
-        </form>
+        </div>
       </div>
     </Container>
   );
